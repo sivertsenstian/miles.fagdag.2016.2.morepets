@@ -2,7 +2,7 @@
     (:require [re-frame.core :as re-frame]
               [morepets.db :as db]
               [morepets.api :as api]))
-
+;;general
 (re-frame/reg-event-db
  :initialize-db
  (fn  [_ _]
@@ -16,10 +16,21 @@
 (re-frame/reg-event-db
  :select
  (fn [db [_ item]]
-  (js/console.log "Selecting!")
-  (js/console.log item)
   (assoc db :selected item)))
 
+(re-frame/reg-event-db
+ :update-item
+ (fn [db [_ collection item key value]]
+  (assoc
+   db
+   collection
+   (map
+    #(if (= (:id %) (:id item))
+      (assoc item key value)
+      %)
+    (get db collection)))))
+
+;;pets
 (re-frame/reg-event-db
  :request-pets
  (fn [db _]
@@ -44,15 +55,27 @@
                 :error-handler #(api/error-handler %)})
   db))
 
+;;robots
+(re-frame/reg-event-db
+ :request-robots
+ (fn [db _]
+  (api/get-robots {:handler #(re-frame/dispatch [:receive-robots (api/unwrap-response %)])
+                   :error-handler #(api/error-handler %)})
+  db))
 
 (re-frame/reg-event-db
- :update-item
- (fn [db [_ collection item key value]]
-  (assoc
-   db
-   collection
-   (map
-    #(if (= (:id %) (:id item))
-      (assoc item key value)
-      %)
-    (get db collection)))))
+ :receive-robots
+ (fn [db [_ robots]]
+  (assoc db :robots robots)))
+
+(re-frame/reg-event-db
+ :request-save-robot
+ (fn [db [_ robot]]
+  (api/put-robot (:id robot)
+                 {:params robot
+                  :format :json
+                  :handler #(do
+                             (js/console.log "SAVE OK!")
+                             (re-frame/dispatch [:select nil]))
+                  :error-handler #(api/error-handler %)})
+  db))

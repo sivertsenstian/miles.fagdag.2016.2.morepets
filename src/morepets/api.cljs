@@ -2,7 +2,7 @@
      (:require [ajax.core :refer [GET PUT POST]]
                [morepets.config :as config]
                [clojure.walk :as cljwalk]))
-
+;;general
 (defn unwrap-response [response]
  (cljwalk/keywordize-keys
   (js->clj response)))
@@ -13,6 +13,7 @@
 (defn error-handler [{:keys [status status-text]}]
   (.log js/console (str "something bad happened: " status " " status-text)))
 
+;;pets
 (defn get-pets
  [options]
  (GET (str config/server-url "/pets")
@@ -21,4 +22,15 @@
 (defn put-pet
  [id options]
  (PUT (str config/server-url "/pets/" id)
+      options))
+
+;;robots
+(defn get-robots
+ [options]
+ (GET (str config/server-url "/robots")
+      options))
+
+(defn put-robot
+ [id options]
+ (PUT (str config/server-url "/robots/" id)
       options))

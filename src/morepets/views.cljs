@@ -114,6 +114,108 @@
       "Save changes"]]]]])
 
 ;; robots
+(declare robot-row)
+(declare selected-robot)
+
+(defn robots-panel []
+  (re-frame/dispatch [:request-robots])
+  (fn []
+    (let [robots (re-frame/subscribe [:robots])
+          selected (re-frame/subscribe [:selected])]
+     [:div.col-xs-12
+      [:h1.text-xs-center "Robots!"]
+      [:hr]
+      (when @selected
+       (selected-robot (first
+                        (filter #(= (:id %) (:id @selected)) @robots))))
+      [:div.col-xs-12]
+      (if (> (count @robots) 0)
+       [:table.table.table-bordered.table-hover
+        [:thead
+         [:tr
+          [:th "Id"]
+          [:th "Name"]
+          [:th "Color"]
+          [:th "IP"]
+          [:th ""]]]
+        [:tbody
+         (map robot-row @robots)]]
+
+       [:div.col-xs-12.text-xs-center
+        [:h3 "No robots :("]])])))
+
+(defn robot-row [{:keys [id name color ipaddress url] :as robot}]
+ ^{:key id}
+ [:tr {:on-click #(re-frame/dispatch [:select robot])}
+  [:td id]
+  [:td name]
+  [:td {:style {:background-color color}}]
+  [:td ipaddress]
+  [:td [:img {:src url :height 50}]]])
+
+(defn selected-robot [{:keys [id name color ipaddress url] :as robot}]
+ ^{:key id}
+ [:div.row.jumbotron
+  [:div.pull-xs-right.btn.btn-secondary
+   {:on-click #(re-frame/dispatch [:select nil])
+    :style {:position "relative"
+            :top -55
+            :left 15}}
+   "X"]
+
+  [:div.col-xs-12
+   [:div.form-group.row
+    [:label.col-xs-1.col-form-label "Id: "]
+    [:div.col-xs-1
+     [:input.form-control {:default-value id
+                           :read-only true}]]]
+   [:div.form-group.row
+    [:label.col-xs-1.col-form-label "Name: "]
+    [:div.col-xs-11
+     [:input.form-control {:default-value name
+                           :on-input #(re-frame/dispatch
+                                       [:update-item
+                                        :robots
+                                        robot
+                                        :name
+                                        (-> % .-target .-value)])}]]]
+
+   [:div.form-group.row
+    [:label.col-xs-1.col-form-label "Color: "]
+    [:div.col-xs-11
+     [:input.form-control {:default-value color
+                           :on-input #(re-frame/dispatch
+                                       [:update-item
+                                        :robots
+                                        robot
+                                        :color
+                                        (-> % .-target .-value)])}]]]
+   [:div.form-group.row
+    [:label.col-xs-1.col-form-label "Ip: "]
+    [:div.col-xs-11
+     [:input.form-control {:default-value ipaddress
+                           :on-input #(re-frame/dispatch
+                                       [:update-item
+                                        :robots
+                                        robot
+                                        :ipaddress
+                                        (-> % .-target .-value)])}]]]
+
+   [:div.form-group.row
+    [:label.col-xs-1.col-form-label "Url: "]
+    [:div.col-xs-11
+     [:input.form-control {:default-value url
+                           :on-input #(re-frame/dispatch
+                                       [:update-item
+                                        :robots
+                                        robot
+                                        :url
+                                        (-> % .-target .-value)])}]]]
+   [:div.form-group.row
+    [:div.col-xs-2.offset-xs-10
+     [:div.btn.btn-success.btn-block
+      {:on-click #(re-frame/dispatch [:request-save-robot robot])}
+      "Save changes"]]]]])
 
 ;; components
 (defn header []
@@ -141,6 +243,7 @@
 (defmulti panels identity)
 (defmethod panels :home-panel [] [home-panel])
 (defmethod panels :pets-panel [] [pets-panel])
+(defmethod panels :robots-panel [] [robots-panel])
 (defmethod panels :default [] [error-panel])
 
 (defn show-panel

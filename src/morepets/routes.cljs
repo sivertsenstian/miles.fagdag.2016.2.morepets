@@ -24,6 +24,8 @@
   (defroute "/pets" []
     (re-frame/dispatch [:set-active-panel :pets-panel]))
 
+  (defroute "/robots" []
+    (re-frame/dispatch [:set-active-panel :robots-panel]))
 
   ;; --------------------
   (hook-browser-navigation!))

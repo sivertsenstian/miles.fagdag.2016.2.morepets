@@ -2,22 +2,22 @@
   "robots": [
     {
       "id": 1,
-      "name": "Jonathan",
-      "color": "Mauv",
+      "name": "R2D2",
+      "color": "blue",
       "ipaddress": "111.210.43.169",
-      "url": "http://dummyimage.com/113x157.jpg/cc0000/ffffff"
+      "url": "http://images.hellogiggles.com/uploads/2016/04/24031713/why-luke-skywalker-left-r2d2-behind-in-star-wars-7-the-force-awakens-797755.jpg"
     },
     {
       "id": 2,
-      "name": "Eugene",
-      "color": "Green",
+      "name": "C-3PO",
+      "color": "gold",
       "ipaddress": "53.72.129.60",
-      "url": "http://dummyimage.com/109x242.jpg/cc0000/ffffff"
+      "url": "https://upload.wikimedia.org/wikipedia/en/5/5c/C-3PO_droid.png"
     },
     {
       "id": 3,
       "name": "Kevin",
-      "color": "Crimson",
+      "color": "brown",
       "ipaddress": "20.203.239.109",
       "url": "http://dummyimage.com/171x172.jpg/cc0000/ffffff"
     },
