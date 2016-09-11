@@ -1,8 +1,21 @@
 # morepets
 
-A [re-frame](https://github.com/Day8/re-frame) application designed to ... well, that part is up to you.
+A [re-frame](https://github.com/Day8/re-frame) application designed to manage your pets!
 
 ## Development Mode
+
+### Start REST API
+Install npm packages (first time only).  
+navigate to "/api-server" in cmd/terminal
+.  
+```
+npm install
+```
+
+Start API-SERVER at http://localhost:3000
+```
+npm start
+```
 
 ### Compile css:
 

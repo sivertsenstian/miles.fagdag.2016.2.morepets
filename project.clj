@@ -4,7 +4,8 @@
                  [reagent "0.6.0-rc"]
                  [binaryage/devtools "0.6.1"]
                  [re-frame "0.8.0"]
-                 [secretary "1.2.3"]]
+                 [secretary "1.2.3"]
+                 [cljs-ajax "0.5.8"]]
 
   :plugins [[lein-cljsbuild "1.1.3"]
             [lein-less "1.7.5"]]
@@ -24,13 +25,13 @@
   {:dev
    {:dependencies []
 
-    :plugins      [[lein-figwheel "0.5.4-3"]]
-    }}
+    :plugins      [[lein-figwheel "0.5.4-3"]]}}
+
 
   :cljsbuild
   {:builds
    [{:id           "dev"
-     :source-paths ["src/cljs"]
+     :source-paths ["src"]
      :figwheel     {:on-jsload "morepets.core/mount-root"}
      :compiler     {:main                 morepets.core
                     :output-to            "resources/public/js/compiled/app.js"
@@ -39,13 +40,9 @@
                     :source-map-timestamp true}}
 
     {:id           "min"
-     :source-paths ["src/cljs"]
+     :source-paths ["src"]
      :compiler     {:main            morepets.core
                     :output-to       "resources/public/js/compiled/app.js"
                     :optimizations   :advanced
                     :closure-defines {goog.DEBUG false}
-                    :pretty-print    false}}
-
-    ]}
-
-  )
+                    :pretty-print    false}}]})

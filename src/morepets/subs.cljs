@@ -11,3 +11,13 @@
  :active-panel
  (fn [db _]
    (:active-panel db)))
+
+(re-frame/reg-sub
+ :selected
+ (fn [db]
+  (:selected db)))
+
+(re-frame/reg-sub
+ :pets
+ (fn [db]
+  (:pets db)))
