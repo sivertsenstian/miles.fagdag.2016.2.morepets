@@ -20,6 +20,7 @@
 ;; pets
 (declare pet-row)
 (declare selected-pet)
+(declare form-row)
 
 (defn pets-panel []
   (re-frame/dispatch [:request-pets])
@@ -75,38 +76,16 @@
     [:div.col-xs-2
      [:div.form-control.tag.tag-info {:style {:padding 15}}
       (str "# " id " ")]]]
-   [:div.form-group.row
-    [:label.col-xs-1.col-form-label "Name: "]
-    [:div.col-xs-11
-     [:input.form-control {:default-value name
-                           :on-input #(re-frame/dispatch
-                                       [:update-item
-                                        :pets
-                                        id
-                                        :name
-                                        (-> % .-target .-value)])}]]]
 
-   [:div.form-group.row
-    [:label.col-xs-1.col-form-label "Gender: "]
-    [:div.col-xs-11
-     [:input.form-control {:default-value gender
-                           :on-input #(re-frame/dispatch
-                                       [:update-item
-                                        :pets
-                                        id
-                                        :gender
-                                        (-> % .-target .-value)])}]]]
-
-   [:div.form-group.row
-    [:label.col-xs-1.col-form-label "Url: "]
-    [:div.col-xs-11
-     [:input.form-control {:default-value url
-                           :on-input #(re-frame/dispatch
-                                       [:update-item
-                                        :pets
-                                        id
-                                        :url
-                                        (-> % .-target .-value)])}]]]
+   [form-row "Name" name {:collection :pets
+                          :id id
+                          :field :name}]
+   [form-row "Gender" gender {:collection :pets
+                              :id id
+                              :field :gender}]
+   [form-row "Url" url {:collection :pets
+                        :id id
+                        :field :url}]
    [:div.form-group.row
     [:div.col-xs-2.offset-xs-10
      [:div.btn.btn-success.btn-block
@@ -169,48 +148,19 @@
     [:div.col-xs-2
      [:div.form-control.tag.tag-info {:style {:padding 15}}
       (str "# " id " ")]]]
-   [:div.form-group.row
-    [:label.col-xs-1.col-form-label "Name: "]
-    [:div.col-xs-11
-     [:input.form-control {:default-value name
-                           :on-input #(re-frame/dispatch
-                                       [:update-item
-                                        :robots
-                                        id
-                                        :name
-                                        (-> % .-target .-value)])}]]]
+   [form-row "Name" name {:collection :robots
+                          :id id
+                          :field :name}]
+   [form-row "Color" color {:collection :robots
+                            :id id
+                            :field :color}]
+   [form-row "Ip" ipaddress {:collection :robots
+                             :id id
+                             :field :ipaddress}]
+   [form-row "Url" url {:collection :robots
+                        :id id
+                        :field :url}]
 
-   [:div.form-group.row
-    [:label.col-xs-1.col-form-label "Color: "]
-    [:div.col-xs-11
-     [:input.form-control {:default-value color
-                           :on-input #(re-frame/dispatch
-                                       [:update-item
-                                        :robots
-                                        id
-                                        :color
-                                        (-> % .-target .-value)])}]]]
-   [:div.form-group.row
-    [:label.col-xs-1.col-form-label "Ip: "]
-    [:div.col-xs-11
-     [:input.form-control {:default-value ipaddress
-                           :on-input #(re-frame/dispatch
-                                       [:update-item
-                                        :robots
-                                        id
-                                        :ipaddress
-                                        (-> % .-target .-value)])}]]]
-
-   [:div.form-group.row
-    [:label.col-xs-1.col-form-label "Url: "]
-    [:div.col-xs-11
-     [:input.form-control {:default-value url
-                           :on-input #(re-frame/dispatch
-                                       [:update-item
-                                        :robots
-                                        id
-                                        :url
-                                        (-> % .-target .-value)])}]]]
    [:div.form-group.row
     [:div.col-xs-2.offset-xs-10
      [:div.btn.btn-success.btn-block
@@ -218,6 +168,18 @@
       "Save changes"]]]]])
 
 ;; components
+(defn form-row [label value {:keys [collection id field] :as update}]
+  [:div.form-group.row
+   [:label.col-xs-1.col-form-label (str label": ")]
+   [:div.col-xs-11
+    [:input.form-control {:default-value value
+                          :on-input #(re-frame/dispatch
+                                      [:update-item
+                                       collection
+                                       id
+                                       field
+                                       (-> % .-target .-value)])}]]])
+
 (defn header []
  (fn [active-panel]
   [:nav.navbar.navbar-light.bg-faded
