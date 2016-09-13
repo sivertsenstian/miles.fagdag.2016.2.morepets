@@ -31,7 +31,7 @@
       [:hr]
       (when @selected
        (selected-pet (first
-                      (filter #(= (:id %) (:id @selected)) @pets))))
+                      (filter #(= (:id %) @selected) @pets))))
       [:div.col-xs-12]
       (if (> (count @pets) 0)
        [:table.table.table-bordered.table-hover
@@ -49,7 +49,7 @@
 
 (defn pet-row [{:keys [id name gender url] :as pet}]
  ^{:key id}
- [:tr {:on-click #(re-frame/dispatch [:select pet])}
+ [:tr {:on-click #(re-frame/dispatch [:select id])}
   [:td id]
   [:td name]
   [:td [:img {:src (case gender
@@ -72,9 +72,9 @@
   [:div.col-xs-12
    [:div.form-group.row
     [:label.col-xs-1.col-form-label "Id: "]
-    [:div.col-xs-1
-     [:input.form-control {:default-value id
-                           :read-only true}]]]
+    [:div.col-xs-2
+     [:div.tag.tag-info  {:style {:padding 15}}
+      (str "#" id " ")]]]
    [:div.form-group.row
     [:label.col-xs-1.col-form-label "Name: "]
     [:div.col-xs-11
@@ -82,7 +82,7 @@
                            :on-input #(re-frame/dispatch
                                        [:update-item
                                         :pets
-                                        pet
+                                        id
                                         :name
                                         (-> % .-target .-value)])}]]]
 
@@ -93,7 +93,7 @@
                            :on-input #(re-frame/dispatch
                                        [:update-item
                                         :pets
-                                        pet
+                                        id
                                         :gender
                                         (-> % .-target .-value)])}]]]
 
@@ -104,7 +104,7 @@
                            :on-input #(re-frame/dispatch
                                        [:update-item
                                         :pets
-                                        pet
+                                        id
                                         :url
                                         (-> % .-target .-value)])}]]]
    [:div.form-group.row

@@ -47,12 +47,12 @@
 
 (re-frame/reg-event-db
  :update-item
- (fn [db [_ collection item key value]]
+ (fn [db [_ collection id key value]]
   (assoc
    db
    collection
    (map
-    #(if (= (:id %) (:id item))
-      (assoc item key value)
+    #(if (= (:id %) id)
+      (assoc % key value)
       %)
     (get db collection)))))
