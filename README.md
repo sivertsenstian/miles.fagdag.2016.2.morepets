@@ -17,6 +17,14 @@ Start API-SERVER at http://localhost:3000
 npm start
 ```
 
+### Create Docker image for REST API
+'npm install' will run as part of the Docker image build.
+
+```
+docker build -t api-server . --force-rm
+docker run -d -p 3000:3000 --name api-server api-server
+```
+
 ### Compile css:
 
 Compile css file once.
