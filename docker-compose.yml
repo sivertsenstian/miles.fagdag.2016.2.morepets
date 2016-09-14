@@ -1,0 +1,16 @@
+version: '2'
+services:
+  api:
+    container_name: 'api-server'
+    image: 'api-server'
+    build: ./api-server
+    ports:
+      - '3000:3000'
+  web:
+    container_name: morepets
+    image: 'morepets'
+    build: .
+    depends_on: 
+      - api
+    ports:
+      - '80:80'

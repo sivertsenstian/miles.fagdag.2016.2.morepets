@@ -51,3 +51,12 @@ To compile clojurescript to javascript:
 lein clean
 lein cljsbuild once min
 ```
+
+### Run in Docker
+Compile production build. Docker compose will build and start Docker images for the REST API and the web application:
+
+```
+docker-compose up
+```
+
+
