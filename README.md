@@ -17,14 +17,6 @@ Start API-SERVER at http://localhost:3000
 npm start
 ```
 
-### Run REST API in Docker
-'npm install' will run as part of the Docker image build.
-
-```
-docker build -t api-server .
-docker run -d -p 3000:3000 --name api-server api-server
-```
-
 ### Compile css:
 
 Compile css file once.
@@ -61,9 +53,10 @@ lein cljsbuild once min
 ```
 
 ### Run in Docker
-Compile production build, before building and running the Docker image. Linking the web application container with the api-server is not necessary since the API is accessed from the browser. 
+Compile production build. Docker compose will build and start Docker images for the REST API and the web application:
 
 ```
-docker build -t morepets .
-docker run -d -p 80:80 --name morepets morepets
+docker-compose up
 ```
+
+
